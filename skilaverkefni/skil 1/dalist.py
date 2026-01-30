@@ -17,10 +17,12 @@ class DAList:
         Time complexity: O(n)
         :param capacity:
         """
-        self.orignal_capacity: int = capacity
+
+        # Define class variables
+        self.__original_capacity: int = capacity
         self.capacity: int = capacity
-        self.data = FixedSizeArray(self.capacity)
-        self.length: int = 0
+        self.__array = FixedSizeArray(self.capacity)
+        self.__lenght: int = 0
 
     def __len__(self) -> int:
         """
@@ -29,7 +31,7 @@ class DAList:
         :return: number of elements
         """
 
-        return self.length
+        return self.__lenght
 
     def __getitem__(self, index: int):
         """
@@ -42,7 +44,7 @@ class DAList:
         # Validate Index
         index = self.__index_validation(index)
 
-        return self.data[index]
+        return self.__array[index]
 
     def __setitem__(self, index: int ,value: object):
         """
@@ -53,7 +55,8 @@ class DAList:
         # Validate Index
         index = self.__index_validation(index)
         
-        self.data[index] = value
+        # Update array
+        self.__array[index] = value
         
 
     def __str__(self) -> str:
@@ -62,17 +65,20 @@ class DAList:
         Time complexity: O(n) Worst case
         :return: string representation
         """
+
+        # Define string
         string = "["
 
         for k in range(len(self)):
 
-            # Check if is last element
+            # Check for element location and create new string
             if k == len(self) - 1:
-                string += str(self.data[k])
+                string += str(self.__array[k])
 
             else:
-                string += str(self.data[k]) + ", "
+                string += str(self.__array[k]) + ", "
 
+        # Close and return string
         string +=  "]"
         return string
 
@@ -86,11 +92,9 @@ class DAList:
         # Validade index
         index = self.__index_validation(index)
         
-        # Remove item & update length
-        self.data[index] = None
-        self.length -= 1
-
-        # Shift array
+        #Shift, remove item & update length
+        self.__array[index] = None
+        self.__lenght -= 1
         self.__shift(index, len(self), 1)
         
     
@@ -118,9 +122,10 @@ class DAList:
             raise StopIteration
         
         # Find element at index
-        value = self.data[self.__index]
+        value = self.__array[self.__index]
         self.__index += 1
 
+        # Return found value
         return value
 
 
@@ -132,9 +137,9 @@ class DAList:
         """
 
         # New array and updated length & capacity
-        self.data = FixedSizeArray(self.orignal_capacity)
-        self.length = 0
-        self.capacity = self.orignal_capacity
+        self.__array = FixedSizeArray(self.__original_capacity)
+        self.__lenght = 0
+        self.capacity = self.__original_capacity
 
     def count(self, value: object) -> int:
         """
@@ -142,13 +147,16 @@ class DAList:
         Time complexity: O(n) Worst case
         :return: number of times value appears
         """
+
+        # Create counter = 0
         counter: int = 0
 
         for k in range(len(self)):
-            if self.data[k] == value:
-                # Update if value is found
+            if self.__array[k] == value:
+                # Update counter if value is found
                 counter += 1
 
+        # Return counter = times value was found
         return counter
 
     def index(self, value: object) -> int:
@@ -160,13 +168,15 @@ class DAList:
         """
         
         for index in range(len(self)):
-            if self.data[index] == value:
-                break # Break if value is found
+            if self.__array[index] == value:
+                # Return index when value was found
+                return index
         
         else: # Raise error if value not found
             raise ValueError(f"{value} is not in list")
 
-        return index
+        
+        
 
     def insert(self, index: int, value: object):
         """
@@ -189,11 +199,10 @@ class DAList:
         if len(self) == self.capacity:
             self.__double()
 
-        # Shift and update Array
+        # Shift, update Array and variables
         self.__shift(len(self), index, -1)
-        self.data[index] = value
-
-        self.length += 1
+        self.__array[index] = value
+        self.__lenght += 1
 
 
     def reverse(self):
@@ -202,20 +211,21 @@ class DAList:
         Time complexity: O(n) Worst case
         """
 
-        back: int = len(self) - 1
+        # Last element index
+        back_idx: int = len(self) - 1
 
-        for front in range(round(len(self) / 2)):
+        for front_idx in range(round(len(self) / 2)):
             
-            #Store a front and curresponding back element as varebles
-            a = self.data[front]    
-            b = self.data[back]
+            #Store front and curresponding back element as varebles
+            new_back = self.__array[front_idx]    
+            new_front = self.__array[back_idx]
 
-            # Swap vareables and update
-            self.data[front] = b    
-            self.data[back] = a
+            # Swap elements and update
+            self.__array[front_idx] = new_front    
+            self.__array[back_idx] = new_back
 
-
-            back -= 1
+            # Update back element index
+            back_idx -= 1
             
 
 
@@ -236,9 +246,9 @@ class DAList:
         if len(self) == self.capacity:
             self.__double()
 
-        # Update array
-        self.data[len(self)] = value
-        self.length += 1
+        # Update array and variables
+        self.__array[len(self)] = value
+        self.__lenght += 1
 
     def copy(self):
         """
@@ -251,7 +261,7 @@ class DAList:
 
         # Take everyting old array has and put also on new array
         for k in range(len(self)):
-            copy.append(self.data[k])
+            copy.append(self.__array[k])
 
         return copy
 
@@ -278,7 +288,7 @@ class DAList:
         index = self.__index_validation(index)
         
         # Update array
-        value = self.data[index]
+        value = self.__array[index]
         del self[index]
 
         return value
@@ -292,7 +302,7 @@ class DAList:
         """
         # Iterate to find Value
         for k in range(len(self)):
-            if self.data[k] == value:
+            if self.__array[k] == value:
                 # Delete if found
                 del self[k]
                 break
@@ -306,7 +316,7 @@ class DAList:
     # More made by us
     ##############################################################################################################
 
-    def __double(self):
+    def __double(self) -> None:
         """
         Doubles the arrays capacity, if its length has reached it maximum capacity and more is needed.
         Time complexity: O(n) Worst case
@@ -319,15 +329,15 @@ class DAList:
 
         # New array gets all elements from old array
         for k in range(len(self)):
-            new[k] = self.data[k]
+            new[k] = self.__array[k]
 
         # Udate array
-        self.data = new
-        self.data.__capacity = self.capacity
+        self.__array = new
+        # self.__array.__capacity = self.capacity
 
         return
     
-    def __shift(self, start: int, stop: int, move: int):
+    def __shift(self, start: int, stop: int, move: int) -> None:
         """
         Shifts part of the array to the left or the right if neccesary, after an item has been removed or added
         Time Complexity: O(n) Worst case
@@ -339,7 +349,9 @@ class DAList:
 
         # Shifts what needs to be shifted
         for k in range(start, stop, move):
-                self.data[k] = self.data[k + move]
+                self.__array[k] = self.__array[k + move]
+
+        return
 
 
     def __index_validation(self, index: int) -> int:
@@ -358,4 +370,5 @@ class DAList:
         if index < 0 or index >= len(self):
             raise IndexError('Index out of range')
         
+        # Return valid index
         return index
