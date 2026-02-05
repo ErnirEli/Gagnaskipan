@@ -1,0 +1,10 @@
+from collections import deque
+d = deque([20, 50, 40], 4)
+print(d)
+d.append(10)
+d.appendleft(30)
+print(d)
+d.pop()
+print(d)
+d.popleft()
+print(d)
