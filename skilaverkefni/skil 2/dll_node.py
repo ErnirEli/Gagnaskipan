@@ -6,6 +6,6 @@ class Node:
     __slots__ = ['prev', 'item', 'next']
 
     def __init__(self, prev, item, next):
-        self.prev = prev
+        self.prev: Node = prev
         self.item = item
-        self.next = next
+        self.next: Node = next

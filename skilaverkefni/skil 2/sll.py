@@ -81,7 +81,13 @@ class SLList:
         :param item: element to insert
         :return: None
         """
-        ...
+        item = Node(item, self._head)
+
+        if self.is_empty():
+            self._tail = item
+
+        self._head = item
+        self._len += 1
 
     def pop_front(self):
         """
@@ -89,16 +95,26 @@ class SLList:
         Time complexity: O(1)
         :return: None, but trows an exception if list empty.
         """
-        ...
+        if self.is_empty():
+            raise IndexError('pop called on an empty list')
 
-    def push_back(self, item):
+        self._head: Node = self._head.next
+        self._len -= 1
+
+    def push_back(self, item: Node):
         """
         Insert an element to back of the list.
         Time complexity: O(1)
         :param item: element to insert
         :return: None
         """
-        ...
+        if self.is_empty():
+            self.push_front()
+            return
+        item = Node(item, None)
+        self._tail.next = item
+        self._tail = item
+        self._len += 1
 
     def pop_back(self):
         """
@@ -106,4 +122,21 @@ class SLList:
         Time complexity: O(n)
         :return: None, but trows an exception if list empty.
         """
-        ...
+        if self.is_empty():
+            raise IndexError('pop called on an empty list')
+        
+        node = self._head
+
+        if len(self) == 1:
+            self.pop_front()
+        else:
+            for k in range(len(self) - 2):
+                node = node.next
+
+            node.next = None
+            self._tail = node
+            self._len -= 1
+            
+        
+
+            
