@@ -32,10 +32,9 @@ from deque import Deque
 # print('Back: ', B.back())
 
 
+
 C = SLList()
-
 D = Deque(C)
-
 D.appendleft(5)
 D.appendleft(77)
 D.append(69)

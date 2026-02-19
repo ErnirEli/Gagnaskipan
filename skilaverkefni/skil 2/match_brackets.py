@@ -1,9 +1,8 @@
 # Choose the one most appropriate of the following ADT for your implementation.
-import dll
 import stack
 import queue
 import deque
-A = dll.DLList()
+
 def match_brackets(s: str) -> bool:
     """
     Returns True if the sting has matching brackets, otherwise False.
@@ -18,15 +17,13 @@ def match_brackets(s: str) -> bool:
         "]b ["   <--- close with ] before opening
         "{{ a }"   <-- missing }
     """
-    
+    A = stack.dll.DLList()
     _stack = stack.Stack(A)
 
     for letter in  s:
         if letter in '{[(':
             _stack.push(letter)
             continue
-        elif _stack.is_empty() and letter in '}])':
-            return False
         elif letter == '}':
             if _stack.top() != '{':
                 return False
