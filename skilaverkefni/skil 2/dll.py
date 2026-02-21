@@ -70,7 +70,7 @@ class DLList:
         :param pos: Position to insert
         :return: Element
         """
-            
+        self._ensure_valid(pos)
         return pos.node.item
 
     def insert_after(self, pos: Position, item: object) -> Position:
@@ -90,7 +90,7 @@ class DLList:
         :param item:Element to insert
         :return: Position of inserted element
         """
-        new = self._insert_between(item, pos.node.next, pos.node)
+        new = self._insert_between(item, pos.node.prev, pos.node)
         return Position(new)
 
     def remove(self, pos: Position) -> object:
@@ -102,7 +102,9 @@ class DLList:
         pos.node.prev.next = pos.node.next
         pos.node.next.prev = pos.node.prev
         self._len -= 1
-        return pos.node.item
+        item = pos.node.item
+        pos.node = None
+        return item
 
     def replace(self, pos: Position, item: object) -> object:
         """
@@ -121,7 +123,7 @@ class DLList:
         """
         if self.is_empty():
             return None
-        return self._head.next
+        return Position(self._head.next)
 
     def back_pos(self) -> Position | None:
         """
@@ -129,23 +131,25 @@ class DLList:
         """
         if self.is_empty():
             return None
-        return self._tail.prev
+        return Position(self._tail.prev)
 
     def prev_pos(self, pos: Position) -> Position | None:
         """
         Return position before 'pos', or None if already at front of list.
         """
+        self._ensure_valid(pos)
         if pos.node is self._head.next:
             return None
-        return pos.node.prev
+        return Position(pos.node.prev)
 
     def next_pos(self, pos: Position) -> Position | None:
         """
         Return position following 'pos', or None if already at end of list.
         """
+        self._ensure_valid(pos)
         if pos.node is self._tail.prev:
             return None
-        return pos.node.next
+        return Position(pos.node.next)
 
     #
     # End of fundamental section.
@@ -160,9 +164,8 @@ class DLList:
         :return: If list non-empty, the front element, otherwise trows an exception.
         """
         if self.is_empty():
-            return None
             raise IndexError('front called on an empty list')
-        return self._head.next.item
+        return self.front_pos().node.item
 
     def back(self):
         """
@@ -171,9 +174,8 @@ class DLList:
         :return: If list non-empty, the back element, otherwise trows an exception.
         """
         if self.is_empty():
-            return None
             raise IndexError('back called on an empty list')
-        return self._tail.prev.item
+        return self.back_pos().node.item
 
     def push_front(self, item):
         """
@@ -192,7 +194,7 @@ class DLList:
         """
         if self.is_empty():
             raise IndexError('pop called on an empty list')
-        self.remove(Position(self._head.next))
+        self.remove(self.front_pos())
         
 
     def push_back(self, item):
@@ -212,7 +214,7 @@ class DLList:
         """
         if self.is_empty():
             raise IndexError('pop called on an empty list')
-        self.remove(Position(self._tail.prev))
+        self.remove(self.back_pos())
 
 
 #
@@ -228,4 +230,10 @@ class DLList:
         successor.prev = new
         self._len += 1
         return new
+    
+    def _ensure_valid(self, pos: Position):
+        if pos is None:
+            raise IndexError('Null position.')
+        if pos.node is None:
+            raise IndexError('Invalidated position.')
     

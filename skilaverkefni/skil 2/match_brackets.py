@@ -19,27 +19,18 @@ def match_brackets(s: str) -> bool:
     """
     A = stack.dll.DLList()
     _stack = stack.Stack(A)
-
+    matching = {'}':'{', ']':'[', ')':'('}
     for letter in  s:
-        if letter in '{[(':
+        if letter in matching.values():
             _stack.push(letter)
-            continue
-        elif letter == '}':
-            if _stack.top() != '{':
+        elif letter in matching.keys():
+            if _stack.is_empty() or matching[letter] != _stack.top():
                 return False
             _stack.pop()
-        elif letter == ')':
-            if _stack.top() != '(':
-                return False
-            _stack.pop()
-        elif letter == ']':
-            if _stack.top() != '[':
-                return False
-            _stack.pop()
-
-    if not _stack.is_empty() or s == '':
-        return False
-    return True
+            
+    if _stack.is_empty():
+        return True
+    return False
 
 def main():
     name = 'brackets.txt'

@@ -109,7 +109,7 @@ class SLList:
         :return: None
         """
         if self.is_empty():
-            self.push_front()
+            self.push_front(item)
             return
         item = Node(item, None)
         self._tail.next = item

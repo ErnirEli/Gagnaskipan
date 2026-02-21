@@ -9,11 +9,14 @@ import dll
 
 class Queue:
 
-    def __init__(self, lst):
+    def __init__(self, lst: sll.SLList | dll.DLList | None = None):
         """"
         Constructor.
         """
-        self._lst = lst
+        if lst is None:
+            self._lst = dll.DLList()
+        else:
+            self._lst = lst
 
     def __len__(self):
         """"
@@ -33,7 +36,6 @@ class Queue:
         """
         Returns True if queue is empty, otherwise False.
         """
-        ...
         return self._lst.is_empty()
 
     def front(self):
@@ -48,7 +50,7 @@ class Queue:
         """
         Inserts the element to the back of the queue.
         """
-        self._lst.puch_back(item)
+        self._lst.push_back(item)
 
     def dequeue(self):
         """

@@ -9,12 +9,15 @@ import dll
 
 class Deque:
 
-    def __init__(self, lst):
+    def __init__(self, lst: sll.SLList | dll.DLList | None = None):
         """
         Constructor.
         """
         
-        self._lst = lst
+        if lst is None:
+            self._lst = dll.DLList()
+        else:
+            self._lst = lst
 
     def __len__(self):
         """
