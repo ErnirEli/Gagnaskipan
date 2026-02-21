@@ -2,7 +2,7 @@
 # Gagnaskipan.
 # Deque implementation
 # Student(s):
-#  - ... your name ...
+#  - Ernir Elí Ellertsson & Daníel Darri Ragnarsson
 #
 import sll
 import dll

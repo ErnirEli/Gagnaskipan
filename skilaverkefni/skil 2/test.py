@@ -464,3 +464,16 @@ H = deque_sll()
 
 if str(A) == str(B) and str(A) == str(C) and str(A) == str(D) and str(A) == str(E) and str(A) == str(F) and str(A) == str(G) and str(A) == str(H):
     print(A, B, C, D, E, F, G, H)
+
+
+A = SLList()
+B = A.push_front(50)
+A.pop_front()
+print(A)
+print(len(A))
+print(A._tail)
+A.push_back(14)
+A.push_back(15)
+print(A._tail)
+print(A._head.next)
+

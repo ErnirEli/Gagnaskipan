@@ -2,7 +2,7 @@
 # Gagnaskipan.
 # Single-Linked-List
 # Student(s):
-#  - ... your name ...
+#  - Ernir Elí Ellertsson & Daníel Darri Ragnarsson
 #
 from sll_node import Node
 from iterator import NodeIterator
@@ -99,6 +99,10 @@ class SLList:
             raise IndexError('pop called on an empty list')
 
         self._head: Node = self._head.next
+        
+        if self._len <= 1:
+            self._tail = None
+
         self._len -= 1
 
     def push_back(self, item: Node):
@@ -127,16 +131,13 @@ class SLList:
         
         node = self._head
 
-        if len(self) == 1:
+        if len(self) <= 1:
             self.pop_front()
         else:
-            for k in range(len(self) - 2):
+            for _ in range(len(self) - 2):
                 node = node.next
 
             node.next = None
             self._tail = node
             self._len -= 1
-            
-        
-
             

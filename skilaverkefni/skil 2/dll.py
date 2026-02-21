@@ -2,7 +2,7 @@
 # Gagnaskipan.
 # Double-Linked-List
 # Student(s):
-#  - ... your name ...
+#  - Ernir Elí Ellertsson & Daníel Darri Ragnarsson
 #
 from dll_node import Node
 from iterator import NodeIterator
@@ -80,6 +80,7 @@ class DLList:
         :param item:Element to insert
         :return: Position of inserted element
         """
+        self._ensure_valid(pos)
         new = self._insert_between(item, pos.node, pos.node.next)
         return Position(new)
 
@@ -90,6 +91,7 @@ class DLList:
         :param item:Element to insert
         :return: Position of inserted element
         """
+        self._ensure_valid(pos)
         new = self._insert_between(item, pos.node.prev, pos.node)
         return Position(new)
 
@@ -99,11 +101,12 @@ class DLList:
         :param pos: Position of element to remove.
         :return: Element deleted
         """
-        pos.node.prev.next = pos.node.next
-        pos.node.next.prev = pos.node.prev
+        node = pos.node
+        node.prev.next = node.next
+        node.next.prev = node.prev
         self._len -= 1
-        item = pos.node.item
-        pos.node = None
+        item = node.item
+        node = None
         return item
 
     def replace(self, pos: Position, item: object) -> object:
@@ -113,6 +116,7 @@ class DLList:
         :param item: New element to replace the existing one.
         :return: The element replaced (formerly at position)
         """
+        self._ensure_valid(pos)
         prev = pos.node.item
         pos.node.item = item
         return prev

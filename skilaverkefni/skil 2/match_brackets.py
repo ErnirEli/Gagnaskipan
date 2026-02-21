@@ -1,4 +1,6 @@
 # Choose the one most appropriate of the following ADT for your implementation.
+#  - Ernir Elí Ellertsson & Daníel Darri Ragnarsson
+
 import stack
 import queue
 import deque
